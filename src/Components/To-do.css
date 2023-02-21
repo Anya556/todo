@@ -1,0 +1,94 @@
+.wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+  align-items: center;
+  min-height: 100vh;
+  background: #222222;
+}
+.main_container {
+  width: 100%;
+  height: 50px;
+}
+
+input {
+  height: 30px;
+  width: 250px;
+  border: none;
+  margin: 10px auto;
+  border-bottom: 1px solid whitesmoke;
+  background: none;
+  color: white;
+  padding: 0 10px;
+  outline: none;
+  font-size: 14px;
+}
+.item-text {
+  margin: 5px;
+}
+.enter {
+  width: 100px;
+  height: 30px;
+  font-size: 14px;
+  background: none;
+  border: 1px solid whitesmoke;
+  color: whitesmoke;
+  margin-left: 10px;
+}
+.enter:hover {
+  background: whitesmoke;
+  color: #222222;
+  cursor: pointer;
+}
+.advanced_container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.advanced_container ul {
+  color: whitesmoke;
+}
+
+ul li {
+  list-style-type: none;
+  width: 200px;
+  flex-wrap: nowrap;
+  padding: 5px;
+}
+ul li input {
+  height: 30px;
+  width: 200px;
+  border-bottom: 1px solid whitesmoke;
+  background: none;
+  color: white;
+  outline: none;
+}
+
+.delete {
+  width: 30px;
+  height: 30px;
+  font-size: 14px;
+  background: none;
+  border: 1px solid whitesmoke;
+  color: whitesmoke;
+  margin-left: 10px;
+}
+.delete:hover {
+  background: whitesmoke;
+  color: #222222;
+  cursor: pointer;
+}
+input.checkbox {
+  margin: 10px;
+  height: 20px;
+  width: 30px;
+  border: 1px solid grey;
+  background-color: #222222;
+  position: relative;
+  top: 5px;
+}
+.edit {
+  width: 80px;
+}
