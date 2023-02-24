@@ -1,60 +1,82 @@
 import React from 'react';
 import './To-do.css';
 import { useState, useEffect } from 'react';
+const initialState = {
+  id: null,
+  text: '',
+  done: false,
+};
 
 function Todo() {
-  const [item, setItem] = useState({id: 0, text: '', done: false});
+  const [item, setItem] = useState(initialState);
   const [items, setItems] = useState(
     JSON.parse(localStorage.getItem('items')) || []
   );
   const [itemEditing, setItemEditing] = useState(null);
-  const [editingText, setEditingText] = useState('');
+  //const [editingText, setEditingText] = useState('');
 
   useEffect(() => {
     localStorage.setItem('items', JSON.stringify(items));
   }, [items]);
 
   function addNewItem() {
-    if (!item) {
+    if (item.text === '') {
       alert('Enter an item.');
-      setItem('');
+      setItem(initialState);
       return;
     }
     const newItem = {
       id: Math.floor(Math.random() * 1000),
-      text: item, 
+      text: item,
       done: false,
     };
-    setItems((items) => [...items, newItem]);
-    setItem({id: 0, text: '', done: false});
+    setItems((oldList) => [...oldList, newItem]);
+    setItem(initialState);
   }
 
-  function onChangeBox(id) {
-    const newArray = items.map((item) => {
-      if (item.id === id) {
-        item.done = !item.done;
+  function editingHandler(text) {
+    const editingItem = { ...itemEditing };
+    editingItem.text = text;
+    setItemEditing(editingItem);
+  }
+  function submitHendler() {
+    setItemEditing(null);
+    const editedItems = items.map((item) => {
+      if (item.id === itemEditing.id) {
+        return itemEditing;
       }
       return item;
     });
-    setItems(newArray);
+    setItems(editedItems);
   }
+  
+  function checkboxHendler(){
+    const checkedItems = items.map((item)=>{
+    if (item.id === itemEditing.id) {
+     item.done = !item.done;
+    }
+    return item;
+  });
+  setItems(checkedItems);
+  
+  }
+  // function editItem(id) {
+  //   const updatedItems = items.map((item) => {
+  //     if (item.id === id) {
+  //       item.done = ditingText;
+  //     }
+  //     return item;
+  //   });
+  //   setItems(updatedItems);
+  //   setItemEditing(null);
+  //   // setEditingText('');
+  // }
 
   function deleteItem(id) {
     const newArray = items.filter((item) => item.id !== id);
     setItems(newArray);
   }
 
-  function editItem(id) {
-    const updatedItems = items.map((item) => {
-      if (item.id === id) {
-        item.text = editingText;
-      }
-      return item;
-    });
-    setItems(updatedItems);
-    setItemEditing(null);
-    setEditingText('');
-  }
   // function handleUpdatedDone(event) {
   //   if (event.key === 'Enter') {
   //     item.text = editingText;
@@ -78,41 +100,49 @@ function Todo() {
         <ul className="todo-list">
           {items.map((item) => {
             return (
+              
               <li key={item.id} style={{ color: item.done ? 'grey' : null }}>
+                
                 <input
                   className="checkbox"
                   type="checkbox"
-                  onChange={() => onChangeBox(item.id)}
-                  checked={item.done}
+                  onChange={() => checkboxHendler()}
+                  //checked={itemEditing}
+                  checked={setItem.done || itemEditing.done}
                 />
-                {itemEditing === item.id ? (
+                
+              
+                {itemEditing && itemEditing.id === item.id ? (
                   <input
                     type="text"
-                    onChange={(e) => setEditingText(e.target.value)}
-                    value={editingText}
+                    onChange={(e) => editingHandler(e.target.value)}
+                    value={itemEditing.text}
                   />
                 ) : (
-                  <div className='item-text'>{item.text}</div>
+                  <div className="item-text">{item.text}</div>
                 )}
 
-                {itemEditing === item.id ? (
+                {itemEditing && itemEditing.id === item.id ? (
                   <button
-                    className="delete edit"
-                    onClick={() => editItem(item.id)}
+                    className="button edit"
+                    onClick={() => submitHendler()}
                     // onKeyDown={handleUpdatedDone}
                   >
                     Submit Edits
                   </button>
                 ) : (
                   <button
-                    className="delete edit"
-                    onClick={() => setItemEditing(item.id)}
+                    className="button edit"
+                    onClick={() => setItemEditing(item)}
                   >
                     Edit Item
                   </button>
                 )}
 
-                <button className="delete" onClick={() => deleteItem(item.id)}>
+                <button
+                  className="button delete"
+                  onClick={() => deleteItem(item.id)}
+                >
                   X
                 </button>
               </li>
