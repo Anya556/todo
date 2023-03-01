@@ -50,14 +50,15 @@ function Todo() {
     setItems(editedItems);
   }
   
-  function checkboxHendler(){
+  function checkboxHendler(id){
+   
     const checkedItems = items.map((item)=>{
-    if (item.id === itemEditing.id) {
-     item.done = !item.done;
+    if (item.id === id) {
+      return item.done = !item.done;
     }
     return item;
   });
-  setItems(checkedItems);
+  setItem(checkedItems);
   
   }
   // function editItem(id) {
@@ -106,9 +107,8 @@ function Todo() {
                 <input
                   className="checkbox"
                   type="checkbox"
-                  onChange={() => checkboxHendler()}
-                  //checked={itemEditing}
-                  checked={setItem.done || itemEditing.done}
+                  onChange={() => checkboxHendler(item.id)}
+                  checked={item.done}
                 />
                 
               
