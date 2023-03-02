@@ -52,9 +52,12 @@ input {
 }
 
 ul li {
+  display: flex;
+  justify-content: center;
+  align-items:flex-end;
   list-style-type: none;
   width: 200px;
-  flex-wrap: nowrap;
+  flex-flow: row;
   padding: 5px;
 }
 ul li input {

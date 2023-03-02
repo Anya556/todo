@@ -15,7 +15,8 @@ function Todo() {
   const [itemEditing, setItemEditing] = useState(null);
   //const [editingText, setEditingText] = useState('');
 
-  useEffect(() => {
+  useEffect(() => { 
+    console.log('hi')
     localStorage.setItem('items', JSON.stringify(items));
   }, [items]);
 
@@ -39,6 +40,7 @@ function Todo() {
     editingItem.text = text;
     setItemEditing(editingItem);
   }
+
   function submitHendler() {
     setItemEditing(null);
     const editedItems = items.map((item) => {
@@ -49,29 +51,13 @@ function Todo() {
     });
     setItems(editedItems);
   }
-  
-  function checkboxHendler(id){
-   
-    const checkedItems = items.map((item)=>{
-    if (item.id === id) {
-      return item.done = !item.done;
-    }
-    return item;
-  });
-  setItem(checkedItems);
-  
+
+  function checkboxHendler(id) {
+    const checkedItems = items.map((item) =>
+      item.id === id ? { ...item, done: !item.done } : item
+    );
+    setItems(checkedItems);
   }
-  // function editItem(id) {
-  //   const updatedItems = items.map((item) => {
-  //     if (item.id === id) {
-  //       item.done = ditingText;
-  //     }
-  //     return item;
-  //   });
-  //   setItems(updatedItems);
-  //   setItemEditing(null);
-  //   // setEditingText('');
-  // }
 
   function deleteItem(id) {
     const newArray = items.filter((item) => item.id !== id);
@@ -101,17 +87,14 @@ function Todo() {
         <ul className="todo-list">
           {items.map((item) => {
             return (
-              
               <li key={item.id} style={{ color: item.done ? 'grey' : null }}>
-                
                 <input
                   className="checkbox"
                   type="checkbox"
                   onChange={() => checkboxHendler(item.id)}
                   checked={item.done}
                 />
-                
-              
+
                 {itemEditing && itemEditing.id === item.id ? (
                   <input
                     type="text"
